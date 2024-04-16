@@ -101,5 +101,18 @@ public final class Person {
         return Objects.hash(getId());
     }
 
-    
+    /**
+     * Compare two Persons by their lastname and prename.
+     *
+     * @param other The other Person to compare to.
+     * @return 0 if the Persons are equal, -1 if this Person is smaller than the other Person, 1 if this Person is bigger than the other Person.
+     */
+    public int compareTo(Person other) {
+        int lastNameComparison = this.lastname.compareTo(other.lastname);
+        if (lastNameComparison != 0) {
+            return lastNameComparison;
+        } else {
+            return this.preName.compareTo(other.preName);
+        }
+    }
 }

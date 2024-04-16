@@ -61,4 +61,26 @@ final class PersonTest {
         Person person2 = new Person(1, "Hans", "Muster");
         assertEquals(person1, person2);
     }
+
+
+//    @Test
+//    public void testCompareToLessThan() {
+//        Person person1 = new Person(3, "Hans", "Muster");
+//        Person person2 = new Person(2, "Hans", "Muster");
+//        assertTrue(person1.compareTo(person2) < 0);
+//    }
+//
+//    @Test
+//    public void testCompareToGreaterThan() {
+//        Person person1 = new Person(2, "Hans", "Muster");
+//        Person person2 = new Person(1, "Hans", "Muster");
+//        assertTrue(person1.compareTo(person2) > 0);
+//    }
+
+    @Test
+    public void testCompareToEquals() {
+        Person person1 = new Person(1, "Hans", "Muster");
+        Person person2 = new Person(1, "Hans", "Muster");
+        assertEquals(0, person1.compareTo(person2));
+    }
 }
