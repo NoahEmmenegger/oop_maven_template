@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Represents a Person with a lastname and a preName.
  */
-public final class Person {
+public final class Person implements Comparable<Person> {
     /**
      * The ID of the Person.
      */
@@ -102,17 +102,12 @@ public final class Person {
     }
 
     /**
-     * Compare two Persons by their lastname and prename.
+     * Compare two Persons by their ID.
      *
      * @param other The other Person to compare to.
      * @return 0 if the Persons are equal, -1 if this Person is smaller than the other Person, 1 if this Person is bigger than the other Person.
      */
     public int compareTo(Person other) {
-        int lastNameComparison = this.lastname.compareTo(other.lastname);
-        if (lastNameComparison != 0) {
-            return lastNameComparison;
-        } else {
-            return this.preName.compareTo(other.preName);
-        }
+        return Long.compare(this.id, other.id);
     }
 }
