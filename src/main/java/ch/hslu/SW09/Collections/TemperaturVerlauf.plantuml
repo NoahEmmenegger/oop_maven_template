@@ -1,0 +1,10 @@
+@startuml
+class TemperaturVerlauf {
+    - temperaturen: ArrayList<Double>
+
+    + TemperaturVerlauf()
+    + addTemperatur(temperatur: Double)
+    + clear()
+    + getCount(): int
+}
+@enduml
