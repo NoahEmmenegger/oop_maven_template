@@ -32,4 +32,33 @@ public final class TemperaturVerlauf extends ArrayList<Temperatur> {
         }
         return max;
     }
+
+    /**
+     * Get the Min Temperature
+     *
+     * @return The min temperature
+     */
+    public Temperatur getMin() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        Temperatur min = this.get(0);
+        for (Temperatur temperatur : this) {
+            if (temperatur.getKelvin() < min.getKelvin()) {
+                min = temperatur;
+            }
+        }
+        return min;
+    }
+
+    public float getAverage() {
+        if (this.isEmpty()) {
+            return 0;
+        }
+        float sum = 0;
+        for (Temperatur temperatur : this) {
+            sum += temperatur.getKelvin();
+        }
+        return sum / this.size();
+    }
 }
