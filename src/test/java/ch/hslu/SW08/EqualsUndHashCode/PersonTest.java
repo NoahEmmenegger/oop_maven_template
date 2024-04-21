@@ -10,14 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 final class PersonTest {
     @Test
-    public void testEquals() {
+    public void testConstructor() {
         Person person = new Person(1, "Hans", "Muster");
         assertTrue(person.getId() == 1 && person.getLastname().equals("Hans") && person.getPreName().equals("Muster"));
     }
 
     @Test
     public void testEqualsContract() {
-        EqualsVerifier.forClass(Person.class).withIgnoredFields("lastname", "preName").verify();
+        EqualsVerifier.forClass(Person.class).withOnlyTheseFields("id").verify();
     }
 
     @Test

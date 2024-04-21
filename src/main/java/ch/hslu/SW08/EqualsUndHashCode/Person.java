@@ -1,7 +1,5 @@
 package ch.hslu.SW08.EqualsUndHashCode;
 
-import java.util.Objects;
-
 /**
  * Represents a Person with a lastname and a preName.
  */
@@ -98,7 +96,8 @@ public final class Person implements Comparable<Person> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Long.hashCode(getId());
+        //return Objects.hash(getId());
     }
 
     /**

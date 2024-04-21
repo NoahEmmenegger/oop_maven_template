@@ -53,8 +53,7 @@ public class ChemicalElement {
     public boolean equals(final Object o) {
         if (this == o) return true;
         return (o instanceof ChemicalElement that)
-                && Objects.equals(name, that.name)
-                ;
+                && Objects.equals(name, that.name);
     }
 
     @Override

@@ -12,7 +12,7 @@ public final class Point {
      * @param x x-Koordinate
      * @param y y-Koordinate
      */
-    public Point(int x, int y) {
+    public Point(final int x, final int y) {
         // Instanzvariable initialisieren
         this.x = x;
         this.y = y;
