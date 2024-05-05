@@ -1,12 +1,17 @@
 package ch.hslu.SW11.TemperaturVerlauf;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public final class TemperaturVerlauf extends ArrayList<Temperatur> {
+    private final List<PropertyChangeListener> changeListeners = new ArrayList<>();
 
     public static void main(String[] args) {
         TemperaturVerlauf temperaturVerlauf = new TemperaturVerlauf();
+        temperaturVerlauf.addPropertyChangeListener(temperaturVerlauf::handleNewInfoEvent);
         Scanner scanner = new Scanner(System.in);
         String input = "";
         do {
@@ -22,8 +27,35 @@ public final class TemperaturVerlauf extends ArrayList<Temperatur> {
                 continue;
             }
         } while (!"exit".equals(input));
-        
+
         System.out.println(temperaturVerlauf);
+    }
+
+    private void handleNewInfoEvent(PropertyChangeEvent e) {
+        System.out.println("New Max: " + e.getNewValue());
+        if (e.getPropertyName() == "max") {
+            System.out.println("Max changed");
+        }
+
+        if (e.getPropertyName() == "min") {
+            System.out.println("Min changed");
+        }
+    }
+
+    @Override
+    public boolean add(Temperatur temperatur) {
+        boolean result = super.add(temperatur);
+        if (this.getMax() == temperatur) {
+            PropertyChangeEvent event = new PropertyChangeEvent(this, "max", this.getMax(), temperatur);
+            firePropertyChangeEvent(event);
+
+        }
+        if (this.getMin() == temperatur) {
+            PropertyChangeEvent event = new PropertyChangeEvent(this, "min", this.getMin(), temperatur);
+            firePropertyChangeEvent(event);
+
+        }
+        return result;
     }
 
     @Override
@@ -90,5 +122,38 @@ public final class TemperaturVerlauf extends ArrayList<Temperatur> {
             sum += temperatur.getKelvin();
         }
         return sum / this.size();
+    }
+
+
+    /**
+     * Registriert einen PropertyChangeListener.
+     *
+     * @param listener PropertyChangeListener.
+     */
+    public void addPropertyChangeListener(
+            final PropertyChangeListener listener) {
+        this.changeListeners.add(listener);
+    }
+
+    /**
+     * Deregistriert einen PropertyChangeListener.
+     *
+     * @param listener PropertyChangeListener.
+     */
+    public void removePropertyChangeListener(
+            final PropertyChangeListener listener) {
+        this.changeListeners.remove(listener);
+    }
+
+    /**
+     * Informiert alle PropertyChangeListeners über PropertyChangeEvent.
+     *
+     * @param pcEvent PropertyChangeEvent.
+     */
+    private void firePropertyChangeEvent(
+            final PropertyChangeEvent pcEvent) {
+        for (final PropertyChangeListener listener : this.changeListeners) {
+            listener.propertyChange(pcEvent);
+        }
     }
 }

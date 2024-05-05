@@ -9,6 +9,7 @@ public final class Temperatur implements Comparable<Temperatur> {
     public static final float KELVIN_OFFSET = 273.15f;
     private float kelvin;
 
+
     /**
      * Konstruktor für Objekte der Klasse Temperatur
      */
