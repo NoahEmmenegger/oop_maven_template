@@ -22,9 +22,9 @@ public final class Temperatur implements Comparable<Temperatur> {
      */
     private Temperatur(float temp, TempUnitEnum unit) {
         if (unit == TempUnitEnum.KELVIN) {
-            this.kelvin = temp;
+            this.setKelvin(temp);
         } else if (unit == TempUnitEnum.CELSIUS) {
-            this.kelvin = convertToKelvin(temp);
+            this.setCelsius(temp);
         } else {
             throw new IllegalArgumentException("Ungültige Temperatur Einheit");
         }
@@ -101,7 +101,8 @@ public final class Temperatur implements Comparable<Temperatur> {
      *
      * @param kelvin temperature in Kelvin
      */
-    public void setKelvin(final float kelvin) {
+    private void setKelvin(final float kelvin) {
+        if (kelvin < 0) throw new IllegalArgumentException("Temperatur darf nicht kleiner als 0 sein.");
         this.kelvin = kelvin;
     }
 
@@ -119,7 +120,9 @@ public final class Temperatur implements Comparable<Temperatur> {
      *
      * @param celsius temperature in Celsius
      */
-    public void setCelsius(final float celsius) {
+    private void setCelsius(final float celsius) {
+        if (celsius < -KELVIN_OFFSET)
+            throw new IllegalArgumentException("Temperatur darf nicht kleiner als -273.15 sein.");
         this.kelvin = celsius + KELVIN_OFFSET;
     }
 
