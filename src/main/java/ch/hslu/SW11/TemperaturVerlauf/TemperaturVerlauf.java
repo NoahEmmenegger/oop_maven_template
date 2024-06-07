@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Temperaturverlauf
+ */
 public final class TemperaturVerlauf extends ArrayList<Temperatur> {
     private final List<PropertyChangeListener> changeListeners = new ArrayList<>();
 
@@ -31,6 +34,11 @@ public final class TemperaturVerlauf extends ArrayList<Temperatur> {
         System.out.println(temperaturVerlauf);
     }
 
+    /**
+     * Handle new info event.
+     *
+     * @param e The property change event.
+     */
     private void handleNewInfoEvent(PropertyChangeEvent e) {
         System.out.println("New Max: " + e.getNewValue());
         if (e.getPropertyName() == "max") {
