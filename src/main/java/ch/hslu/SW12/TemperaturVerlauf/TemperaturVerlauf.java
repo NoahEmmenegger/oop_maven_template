@@ -1,7 +1,12 @@
 package ch.hslu.SW12.TemperaturVerlauf;
 
+import ch.hslu.SW12.StreamTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,10 +15,12 @@ import java.util.Scanner;
  * Temperaturverlauf
  */
 public final class TemperaturVerlauf extends ArrayList<Temperatur> {
+    private static final Logger LOG = LoggerFactory.getLogger(StreamTest.class);
     private final List<PropertyChangeListener> changeListeners = new ArrayList<>();
 
     public static void main(String[] args) {
         TemperaturVerlauf temperaturVerlauf = new TemperaturVerlauf();
+        temperaturVerlauf.readFromFile("./temperaturverlauf.dat");
         temperaturVerlauf.addPropertyChangeListener(temperaturVerlauf::handleNewInfoEvent);
         Scanner scanner = new Scanner(System.in);
         String input = "";
@@ -32,6 +39,34 @@ public final class TemperaturVerlauf extends ArrayList<Temperatur> {
         } while (!"exit".equals(input));
 
         System.out.println(temperaturVerlauf);
+        temperaturVerlauf.writeToFile("./temperaturverlauf.dat");
+    }
+
+    public void writeToFile(final String file) {
+        try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file))) {
+            dataOutputStream.writeInt(this.getCount());
+
+            for (Temperatur temperatur : this) {
+                dataOutputStream.writeFloat(temperatur.getKelvin());
+            }
+            LOG.info("Data written to file");
+        } catch (IOException e) {
+            LOG.error("Error writing to file", e);
+        }
+    }
+
+    public void readFromFile(final String file) {
+        try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(file))) {
+            final int count = dataInputStream.readInt();
+            for (int i = 0; i < count; i++) {
+                final float value = dataInputStream.readFloat();
+                this.add(Temperatur.createFromKelvin(value));
+            }
+            LOG.info("Data read from file");
+            LOG.info("TemperaturVerlauf: " + this);
+        } catch (IOException e) {
+            LOG.error("Error reading from file", e);
+        }
     }
 
     /**
